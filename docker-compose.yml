@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hyperf
+      MYSQL_USER: hyperf
+      MYSQL_PASSWORD: hyperf
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    image: hyperf/hyperf:8.2-alpine-v3.21-swoole-v6.0
+    working_dir: /srv/app
+    volumes:
+      - ./backend:/srv/app
+    depends_on:
+      - mysql
+    ports:
+      - "9501:9501"
+    command: php bin/hyperf.php start
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
