@@ -97,11 +97,3 @@ npm run build
 
 Consulte o `frontend/README.md` original para mais detalhes sobre o desenvolvimento com Create React App.
 
-## Contribuição
-
-Sinta-se à vontade para contribuir com este projeto. Por favor, siga as boas práticas de desenvolvimento e crie pull requests para suas alterações.
-
-## Licença
-
-Este projeto está licenciado sob a licença MIT. Veja o arquivo `LICENSE` (se existir) para mais detalhes.
-
