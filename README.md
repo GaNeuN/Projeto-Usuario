@@ -78,9 +78,9 @@ docker-compose up -d
 
 | Método | Rota               | Descrição                 |
 |--------|--------------------|---------------------------|
-| GET    | /usuarios/listar   | Lista todos os usuários   |
-| POST   | /usuarios/salvar   | Cria um novo usuário      |
-| POST    | /usuarios/editar   | Edita um usuário existente|
+| GET    | /usuarios          | Lista todos os usuários   |
+| POST   | /criarusuario      | Cria um novo usuário      |
+| POST   | /editarusuario     | Edita um usuário existente|
 
 > 💡 A comunicação é feita em JSON. Para testar, você pode usar Postman ou Insomnia.
 
