@@ -7,7 +7,9 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
-
+import validaCampos from '../utils/validacao';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 
 function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus}) {
     const [nome, setNome] = useState("");
@@ -18,7 +20,8 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
     const [email, setEmail] = useState("");
     const [id, setId] = useState("");
     const [open, setOpen] = useState(true);
-    let estado = null;
+    const [mensagem, setMensagem] = useState("");
+    
 
     useEffect(() => {
         if(dados) {
@@ -50,10 +53,25 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        onSubmit({ nome, cpf_cnpj, data_nascimento, renda_faturamento, email, telefone,id });
+        const msg = validaCampos({nome, cpf_cnpj, data_nascimento, renda_faturamento, email, telefone});
+        console.log(msg.length);
+        if(msg.length === 0)
+            onSubmit({ nome, cpf_cnpj, data_nascimento, renda_faturamento, email, telefone,id });
+        else
+            setMensagem(msg);
     };
 
-    
+    const showMessage = (statusMessage) => {
+        if(statusMessage.length>0)
+        {
+            return (<Stack sx={{ width: '100%', margin:'10px 0px' }} spacing={2}>
+                <Alert variant="filled" severity="error">
+                    {statusMessage}
+                </Alert>
+            </Stack>)
+
+        }
+    }
 
     const style = {
         position: 'absolute',
@@ -79,7 +97,9 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
                     <h2>{dados ? 'Alterar Usuário' : 'Novo Usuário'}</h2>
                     <input type='hidden' name="id" value={id} />
                     <Grid container spacing={2}>
-                        
+                        {
+                            showMessage(mensagem)
+                        }
                         
                         <Grid size={6} spacing={2}>
                             <TextField id="nome" label="Nome" variant="outlined" onChange={(e) => setNome(e.target.value)} value={nome} required/>
