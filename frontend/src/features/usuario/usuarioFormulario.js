@@ -24,8 +24,8 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
         if(dados) {
             setNome(dados.nome);
             setCPFCNPJ(dados.cpf_cnpj);
-            setDataNascimento(dados.data_nascimento);
-            setRendaFaturamento(dados.renda_faturamento);
+            setDataNascimento(arrumaData(dados.data_nascimento));
+            setRendaFaturamento((dados.renda_faturamento.toLocaleString('pt-br', {minimumFractionDigits: 2})));
             setTelefone(dados.telefone);
             setEmail(dados.email);
             setId(dados.id);
@@ -42,6 +42,11 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
         }
     }, [dados]);
 
+    const arrumaData = (data) => {
+        let d = data.split("-");
+        return d[2]+"/"+d[1]+"/"+d[0];
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -55,7 +60,7 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 500,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,

@@ -14,6 +14,25 @@ use App\Controller\ValidacoesController;
 
 class UsuarioController extends AbstractController {
 
+    function ajustaData($data) {
+
+        if(strpos($data,"/")>0)
+        {
+            $d = explode("/",$data);
+            $data = $d[2]."-".$d[1]."-".$d[0];
+        }
+
+        return $data;
+    }
+
+    function ajustaReais($valor) {
+
+        if(strpos($valor,",")>0)
+            $valor = str_replace(",",".",str_replace(".","",$valor));
+
+        return $valor;
+    }
+
     function salvar(RequestInterface $request, ResponseInterface $response) {
 
         $validacoes = new ValidacoesController();
@@ -22,11 +41,13 @@ class UsuarioController extends AbstractController {
         $validaCNPJ = $validacoes->cnpj($request->input("cpf_cnpj"));
         $validaTelefone = $validacoes->telefone($request->input("telefone"));
 
+
+
         $dados = [
             'nome' => $request->input("nome"),
             "cpf_cnpj" => $request->input("cpf_cnpj"),
-            "data_nascimento" => $request->input("data_nascimento"),
-            "renda_faturamento" => $request->input("renda_faturamento"),
+            "data_nascimento" => $this->ajustaData($request->input("data_nascimento")),
+            "renda_faturamento" => $this->ajustaReais($request->input("renda_faturamento")),
             "telefone" => $request->input("telefone"),
             "email" => $request->input("email")
         ];
