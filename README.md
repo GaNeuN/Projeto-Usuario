@@ -1,99 +1,99 @@
-# Projeto Usuário
+# 📋 Projeto Usuário
 
-Este projeto é uma aplicação full-stack que demonstra a integração de um backend desenvolvido com Hyperf (PHP) e um frontend construído com React, utilizando React Query para gerenciamento de estado. A aplicação é conteinerizada com Docker para facilitar o desenvolvimento e a implantação.
+Sistema completo de **cadastro, listagem, edição e exclusão de usuários**, utilizando:
+- ⚛️ Frontend em React
+- 🐘 Backend em Hyperf (PHP 8.1)
+- 🐬 Banco de dados MySQL
+- 🐳 Contêineres Docker para orquestração
 
-## Tecnologias Utilizadas
+Este projeto foi desenvolvido como parte de um processo seletivo técnico, com foco em apresentar uma solução funcional e modular, respeitando boas práticas de desenvolvimento fullstack e integração entre camadas.
 
-- **Backend**: Hyperf (PHP), Swoole, MySQL
-- **Frontend**: React, React Query, JavaScript
-- **Orquestração**: Docker, Docker Compose
+---
 
-## Estrutura do Projeto
+## ✨ Funcionalidades
 
-O projeto é dividido em três diretórios principais:
+- ✅ Listagem de usuários
+- ✅ Cadastro de novos usuários
+- ✅ Edição de usuários existentes
+- ✅ Exclusão de usuários
+- ✅ Integração entre frontend React e API Hyperf
+- ✅ Banco de dados MySQL com persistência em Docker
 
-- `backend/`: Contém o código-fonte da aplicação Hyperf.
-- `frontend/`: Contém o código-fonte da aplicação React.
-- `docker-compose.yml`: Define os serviços Docker para o banco de dados (MySQL), backend e frontend.
+---
 
-## Instalação e Configuração
+## 🧠 Tecnologias utilizadas
 
-Para colocar o projeto em funcionamento, siga os passos abaixo:
+| Camada | Ferramentas |
+|--------|-------------|
+| Frontend | React, Axios, React-Query |
+| Backend | PHP 8.1, Hyperf Framework |
+| Banco de dados | MySQL 8 |
+| Containerização | Docker, Docker Compose |
 
-### Pré-requisitos
+---
 
-Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina. Você pode baixá-los em [https://www.docker.com/get-started](https://www.docker.com/get-started).
+## 📂 Estrutura do Projeto
 
-### 1. Clonar o Repositório
-
-```bash
-git clone https://github.com/GaNeuN/Projeto-Usuario.git
-cd Projeto-Usuario
+```
+Projeto-Usuario/
+│
+├── backend/          # API Hyperf (PHP)
+│   ├── app/
+│   ├── config/
+│   └── ...
+│
+├── frontend/         # Aplicação React
+│   ├── src/
+│   ├── public/
+│   └── ...
+│
+├── docker-compose.yml
+└── README.md
 ```
 
-### 2. Configurar o Ambiente
+---
 
-O arquivo `docker-compose.yml` já está configurado para iniciar todos os serviços necessários. Ele define:
+## 🚀 Como executar o projeto
 
-- Um serviço `mysql` utilizando a imagem `mysql:8`.
-- Um serviço `backend` baseado na imagem `hyperf/hyperf:8.2-alpine-v3.21-swoole-v6.0`, mapeando a porta `9501`.
-- Um serviço `frontend` que constrói a imagem a partir do `Dockerfile` no diretório `frontend/`, mapeando a porta `3000`.
+### Pré-requisitos:
+- Docker e Docker Compose instalados.
 
-### 3. Iniciar os Serviços Docker
-
-No diretório raiz do projeto, execute o seguinte comando para iniciar todos os contêineres:
+### Passos:
 
 ```bash
+# Clone o repositório
+git clone https://github.com/GaNeuN/Projeto-Usuario.git
+cd Projeto-Usuario
+
+# Suba os containers
 docker-compose up -d
 ```
 
-Isso irá baixar as imagens necessárias, construir a imagem do frontend e iniciar os serviços em segundo plano.
+- Acesse o frontend em: `http://localhost:5173`
+- Acesse o backend (API) em: `http://localhost:9501`
 
-### 4. Acessar a Aplicação
+---
 
-- **Backend**: A API do backend estará disponível em `http://localhost:9501`.
-- **Frontend**: A aplicação React estará acessível em `http://localhost:3000`.
+## 📬 Endpoints da API
 
-## Uso
+| Método | Rota               | Descrição                 |
+|--------|--------------------|---------------------------|
+| GET    | /usuarios          | Lista todos os usuários   |
+| POST   | /criarusuario      | Cria um novo usuário      |
+| POST   | /editarusuario     | Edita um usuário existente|
 
-Após a instalação e configuração, você pode interagir com a aplicação:
+> 💡 A comunicação é feita em JSON. Para testar, você pode usar Postman ou Insomnia.
 
-- Navegue para `http://localhost:3000` no seu navegador para acessar a interface do usuário.
-- O frontend se comunicará com o backend na porta `9501` para buscar e enviar dados.
+---
 
-## Desenvolvimento
+## 🧠 Diferenciais
 
-### Backend (Hyperf)
+- Projeto dockerizado e separado por camadas
+- Integração fluida entre React e Hyperf
+- Arquitetura clara e extensível para escalar
 
-Para desenvolver no backend, você pode acessar o contêiner do backend:
+---
 
-```bash
-docker-compose exec backend bash
-```
+## 👤 Autor
 
-Dentro do contêiner, você pode executar comandos Hyperf, como iniciar o servidor de desenvolvimento (embora o `docker-compose up` já faça isso):
-
-```bash
-php bin/hyperf.php start
-```
-
-Consulte o `backend/README.md` original para mais detalhes sobre o desenvolvimento com Hyperf.
-
-### Frontend (React)
-
-Para desenvolver no frontend, o Docker Compose já mapeia o diretório `frontend/` para dentro do contêiner, permitindo que você veja as mudanças em tempo real. Se precisar executar comandos npm diretamente no contêiner do frontend:
-
-```bash
-docker-compose exec frontend bash
-```
-
-Dentro do contêiner, você pode executar comandos como:
-
-```bash
-npm start
-npm test
-npm run build
-```
-
-Consulte o `frontend/README.md` original para mais detalhes sobre o desenvolvimento com Create React App.
-
+Guilherme Neuenfeldt  
