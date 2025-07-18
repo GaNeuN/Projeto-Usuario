@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 function UsuarioLista({itens, onEdit, onDelete}) {
 
     if(!itens || itens.length === 0)
-        return <p>Nenhum usuário cadastrado</p>
+        return <p class='mensagemNenhumUsuario'>Nenhum usuário cadastrado</p>
 
     return(
         <TableContainer component={Paper}>

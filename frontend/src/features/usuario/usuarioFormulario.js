@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 
 function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus}) {
     const [nome, setNome] = useState("");
@@ -86,13 +86,13 @@ function UsuarioFormulario({dados, onSubmit, onCancel, onStatusMessage, onStatus
                         </Grid>   
                         <Grid size={6}> 
                             <TextField id="cpf_cnpj" label="CPF/CNPJ" variant="outlined" onChange={(e) => setCPFCNPJ(e.target.value)} value={cpf_cnpj} required/>
+                            
                         </Grid>
                         <Grid size={6}>
-                            
-                            <TextField id="data_nascimento" label={cpf_cnpj.length > 15 ? 'Data de Fundação' : 'Data de Nascimento'} variant="outlined" onChange={(e) => setDataNascimento(e.target.value)} value={data_nascimento} required/>
+                            <TextField id="data_nascimento" label={(cpf_cnpj.replace(/[^0-9]/g, '')).length > 11 ? 'Data de Fundação' : 'Data de Nascimento'} variant="outlined" onChange={(e) => setDataNascimento(e.target.value)} value={data_nascimento} required/>
                         </Grid>        
                         <Grid size={6}>
-                            <TextField id="renda_faturamento" label={cpf_cnpj.length > 15 ? 'Faturamento' : 'Renda'} variant="outlined" onChange={(e) => setRendaFaturamento(e.target.value)} value={renda_faturamento} required/>                        
+                            <TextField id="renda_faturamento" label={(cpf_cnpj.replace(/[^0-9]/g, '')).length > 11 ? 'Faturamento' : 'Renda'} variant="outlined" onChange={(e) => setRendaFaturamento(e.target.value)} value={renda_faturamento} required/>                        
                         </Grid>
                         <Grid size={6}>
                             <TextField id="telefone" label="Telefone" variant="outlined" onChange={(e) => setTelefone(e.target.value)} value={telefone} required/>                        

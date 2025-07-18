@@ -17,3 +17,10 @@ TextField {
 h1 {
   color:#fff;
 }
+
+.mensagemNenhumUsuario {
+  color: #fff;
+  font-size: 1.2em;
+  
+  margin-top: 10px;
+}

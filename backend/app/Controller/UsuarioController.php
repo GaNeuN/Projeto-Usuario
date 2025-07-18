@@ -37,53 +37,29 @@ class UsuarioController extends AbstractController {
 
         $validacoes = new ValidacoesController();
 
-        $validaCPF = $validacoes->cpf($request->input("cpf_cnpj"));
-        $validaCNPJ = $validacoes->cnpj($request->input("cpf_cnpj"));
-        $validaTelefone = $validacoes->telefone($request->input("telefone"));
+        $mensagem = $validacoes->montaValidacoes($request);
 
-
-
-        $dados = [
-            'nome' => $request->input("nome"),
-            "cpf_cnpj" => $request->input("cpf_cnpj"),
-            "data_nascimento" => $this->ajustaData($request->input("data_nascimento")),
-            "renda_faturamento" => $this->ajustaReais($request->input("renda_faturamento")),
-            "telefone" => $request->input("telefone"),
-            "email" => $request->input("email")
-        ];
-        $mensagem = '';
-        
-        $tamCPFCNPJ = strlen(str_replace("-","",str_replace(".","",$request->input("cpf_cnpj"))));
-
-        if(!$validaCPF && $tamCPFCNPJ <=11)
-            $mensagem .= ", CPF Inválido";
-
-        if(!$validaCNPJ && $tamCPFCNPJ>11)
-            $mensagem  .= ", CNPJ Inválido";
-
-        if(!$validaTelefone)
-            $mensagem .= ", Telefone Inválido";
-
-        $mensagem = substr($mensagem,1,strlen($mensagem));
-
+        $dados = $this->tratamentoDados($request);
 
         if(empty($mensagem))
         {
-            $usuario = Usuario::create($dados);
 
+            $validaExistencia = Usuario::where("cpf_cnpj", $request->input("cpf_cnpj"))->count();
+            if(!$validaExistencia>0)
+            {
+                $usuario = Usuario::create($dados);
 
-
-            if($usuario->id>0)
-                return $response->withStatus(201)->json(['mensagem'=>"Usuário cadastrado com sucesso."]);
+                if($usuario->id>0)
+                    return $response->withStatus(201)->json(['mensagem'=>"Usuário cadastrado com sucesso."]);
+                else
+                    return $response->withStatus(400)->json(['mensagem'=>"Erro ao cadastrar Usuário."]);
+            }
             else
-                return $response->withStatus(500)->json(['mensagem'=>"Erro ao cadastrar Usuário."]);
+                return $response->withStatus(400)->json(['mensagem'=>"Usuário já cadastrado no sistema."]);
         }
         else
-        {
-            return $response->withStatus(500)->json(['mensagem'=>"Erro ao cadastrar Usuário. <br/>{$mensagem}"]);
-        }
+            return $response->withStatus(400)->json(['mensagem'=>"Erro ao cadastrar Usuário. {$mensagem}"]);
         
-        //return $response->json(['usuario_id' => $usuario->id, "message"=>'Inserido com sucesso']);
 
     }
 
@@ -91,33 +67,10 @@ class UsuarioController extends AbstractController {
 
         $validacoes = new ValidacoesController();
 
-        $validaCPF = $validacoes->cpf($request->input("cpf_cnpj"));
-        $validaCNPJ = $validacoes->cnpj($request->input("cpf_cnpj"));
-        $validaTelefone = $validacoes->telefone($request->input("telefone"));
+        $mensagem = $validacoes->montaValidacoes($request);
 
-        $dados = [
-            'nome' => $request->input("nome"),
-            "cpf_cnpj" => $request->input("cpf_cnpj"),
-            "data_nascimento" => $request->input("data_nascimento"),
-            "renda_faturamento" => $request->input("renda_faturamento"),
-            "telefone" => $request->input("telefone"),
-            "email" => $request->input("email")
-        ];
+        $dados = $this->tratamentoDados($request);
 
-        $mensagem = '';
-        
-        $tamCPFCNPJ = strlen(str_replace("-","",str_replace(".","",$request->input("cpf_cnpj"))));
-
-        if(!$validaCPF && $tamCPFCNPJ <=11)
-            $mensagem .= ", CPF Inválido";
-
-        if(!$validaCNPJ && $tamCPFCNPJ>11)
-            $mensagem  .= ", CNPJ Inválido";
-
-        if(!$validaTelefone)
-            $mensagem .= ", Telefone Inválido";
-
-        $mensagem = substr($mensagem,1,strlen($mensagem));
 
         if(empty($mensagem))
         {
@@ -127,10 +80,10 @@ class UsuarioController extends AbstractController {
             if($usuario)
                 return $response->withStatus(201)->json(['mensagem'=>"Usuário alterado com sucesso."]);
             else
-                return $response->withStatus(500)->json(['mensagem'=>"Erro ao alterar Usuário."]);
+                return $response->withStatus(400)->json(['mensagem'=>"Erro ao alterar Usuário."]);
         }
         else
-            return $response->withStatus(500)->json(['mensagem'=>"Erro ao alterar Usuário. {$mensagem}"]);
+            return $response->withStatus(400)->json(['mensagem'=>"Erro ao alterar Usuário. {$mensagem}"]);
     }
 
     function listar() {
@@ -138,4 +91,18 @@ class UsuarioController extends AbstractController {
         return $this->response->json($usuarios);
     }
 
+    function tratamentoDados($dados) {
+
+        $retorno = [
+            'nome' => $dados->input("nome"),
+            "cpf_cnpj" => $dados->input("cpf_cnpj"),
+            "data_nascimento" => $this->ajustaData($dados->input("data_nascimento")),
+            "renda_faturamento" => $this->ajustaReais($dados->input("renda_faturamento")),
+            "telefone" => $dados->input("telefone"),
+            "email" => $dados->input("email")
+        ];
+
+        return $retorno;
+
+    }
 }
