@@ -15,7 +15,6 @@ Este projeto foi desenvolvido como parte de um processo seletivo técnico, com f
 - ✅ Listagem de usuários
 - ✅ Cadastro de novos usuários
 - ✅ Edição de usuários existentes
-- ✅ Exclusão de usuários
 - ✅ Integração entre frontend React e API Hyperf
 - ✅ Banco de dados MySQL com persistência em Docker
 
